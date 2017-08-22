@@ -51,14 +51,14 @@ def cosine_distance(x, y, name=''):
 def cosine_distance_with_negative_samples(x, y, shift, num_negative_samples, name=''):
     '''
 
-    Given minibatches for ``x`` and ``y``, this function computes for each element in `x` the cosine distance between 
-    it and the corresponding `y` and additionally the cosine distance between ``x`` and some other elements of ``y`` 
-    (referred to a negative samples). The ``x`` and ``y`` pairs are samples often derived 
-    from embeddings of textual data, though the function can be used for any form of numeric encodings. 
-    When using this function to compute textual similarity, ``x`` represents search query term embedding 
-    and ``y`` represents a document embedding. The negative samples are formed on the fly by shifting 
+    Given minibatches for ``x`` and ``y``, this function computes for each element in `x` the cosine distance between
+    it and the corresponding `y` and additionally the cosine distance between ``x`` and some other elements of ``y``
+    (referred to a negative samples). The ``x`` and ``y`` pairs are samples often derived
+    from embeddings of textual data, though the function can be used for any form of numeric encodings.
+    When using this function to compute textual similarity, ``x`` represents search query term embedding
+    and ``y`` represents a document embedding. The negative samples are formed on the fly by shifting
     the right side (``y``). The ``shift`` indicates how many samples in ``y`` one should shift while
-    forming each negative sample pair. It is often chosen to be 1. As the name suggests 
+    forming each negative sample pair. It is often chosen to be 1. As the name suggests
     ``num_negative_samples`` indicates how many negative samples one would want to generate.
 
     Example:
@@ -78,7 +78,7 @@ def cosine_distance_with_negative_samples(x, y, shift, num_negative_samples, nam
         x: numpy array or any :class:`~cntk.ops.functions.Function` that outputs a tensor
         y: numpy array or any :class:`~cntk.ops.functions.Function` that outputs a tensor
         shift: non-zero positive integer representing number of shift to generate a negative sample
-        num_negative_samples: number of negative samples to generate, a non-zero positive integer 
+        num_negative_samples: number of negative samples to generate, a non-zero positive integer
         name (str, optional): the name of the Function instance in the network
     Returns:
         :class:`~cntk.ops.functions.Function`
@@ -309,8 +309,8 @@ def nce_loss(weights, biases, inputs, labels, noise_distribution, num_samples=32
         >>> # the loss
         >>> loss = C.nce_loss(W, b, x, y, q, seed=98052)
         >>> # evaluate the loss at our dummy data
-        >>> np.round(loss.eval({x:x0, y:y0}), 4)
-        array([ 2.3848,  3.0354,  3.8862,  3.8678], dtype=float32)
+        >>> np.round(loss.eval({x:x0, y:y0}), decimals=3)
+        array([ 2.385,  3.035,  3.886,  3.868], dtype=float32)
         >>> # after training, use the logits for predictions
         >>> logits = C.times(W, C.reshape(x, (xdim, 1))) + b
 
@@ -338,7 +338,7 @@ def nce_loss(weights, biases, inputs, labels, noise_distribution, num_samples=32
         name (str, optional): the name of the Function instance in the network
     Returns:
         :class:`~cntk.ops.functions.Function`
-    
+
     See also:
         [1] C. Dyer. `Notes on Noise Contrastive Estimation and Negative Sampling [pdf] <http://demo.clab.cs.cmu.edu/cdyer/nce_notes.pdf>`_.
     '''
@@ -347,5 +347,5 @@ def nce_loss(weights, biases, inputs, labels, noise_distribution, num_samples=32
     inputs = sanitize_input(inputs, dtype)
     labels = sanitize_input(labels, dtype)
     noise_distribution = sanitize_input(noise_distribution, dtype)
-    return nce_loss(weights, biases, inputs, labels, noise_distribution, 
+    return nce_loss(weights, biases, inputs, labels, noise_distribution,
                     num_samples, allow_duplicates, seed, name)
